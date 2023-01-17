@@ -19,7 +19,7 @@ After providing the file path of the Malicious OneNote document. The OneNoteAnal
 
 ![usage](https://user-images.githubusercontent.com/60843949/212981619-8fe1c6c0-0ffb-4e37-869c-0febbd1484ea.PNG)
 
-## Working of OneNoteAnalyzer
+## Demonstration
 
 In order to execute OneNoteAnalyzer against malicious OneNote Documents we provide the path of the OneNote Document as shown below.
 
@@ -86,6 +86,8 @@ Once the execution is completed following folders can be seen in the directory w
 ## References
 
 https://docs.aspose.com/note/net
+
+## Thankyou! :)
 
 
 

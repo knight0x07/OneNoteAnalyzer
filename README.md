@@ -79,7 +79,7 @@ Once the execution is completed following folders can be seen in the directory w
 
 ## Setup Information
 
-- Clone the repository in Visual Studio
+- Copy "Program.cs" in Visual Studio
 - Install "Aspose.Note 18.1.0" from Nuget Packages
 - Build the project!
 

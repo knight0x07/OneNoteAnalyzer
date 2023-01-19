@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +12,10 @@ namespace OneNoteAnalyzer
 {
     class Program
     {
-        public static void ExtractAttachment(string onepath)
+        public static void ExtractAttachment(string onepath, string exportdirectory)
         {
             Console.WriteLine("\n      -> Extracted OneNote Document Attachments: \n");
-            string DirectoryName = Path.GetDirectoryName(onepath) + "\\OneNoteAttachments";
+            string DirectoryName = exportdirectory + "\\OneNoteAttachments";
             if (!Directory.Exists(DirectoryName))
             {
                 Directory.CreateDirectory(DirectoryName);
@@ -63,10 +63,10 @@ namespace OneNoteAnalyzer
 
         }
 
-        public static void ExtractImages(string onepath)
+        public static void ExtractImages(string onepath, string exportdirectory)
         {
             Document OneNoteFile = new Document(onepath);
-            string DirectoryName = Path.GetDirectoryName(onepath) + "\\OneNoteImages";
+            string DirectoryName = exportdirectory + "\\OneNoteImages";
             if (!Directory.Exists(DirectoryName))
             {
                 Directory.CreateDirectory(DirectoryName);
@@ -101,11 +101,11 @@ namespace OneNoteAnalyzer
 
         }
 
-        public static void ExtractText(string onepath)
+        public static void ExtractText(string onepath, string exportdirectory)
         {
 
             Document OneNoteFile = new Document(onepath);
-            string DirectoryName = Path.GetDirectoryName(onepath) + "\\OneNoteText";
+            string DirectoryName = exportdirectory + "\\OneNoteText";
             if (!Directory.Exists(DirectoryName))
             {
                 Directory.CreateDirectory(DirectoryName);
@@ -132,9 +132,15 @@ namespace OneNoteAnalyzer
 
         }
 
-        public static void ExtractHyperLink(string onepath)
+        public static void ExtractHyperLink(string onepath, string exportdirectory)
         {
             Document OneNoteFile = new Document(onepath);
+            string DirectoryName = exportdirectory + "\\OneNoteHyperLinks";
+            if (!Directory.Exists(DirectoryName))
+            {
+                Directory.CreateDirectory(DirectoryName);
+            }
+            string pagepathlink = DirectoryName + "\\onenote_hyperlinks.txt";
 
             Console.WriteLine("\n      -> Extracted OneNote Document HyperLinks:  (Note: Text might contain hyperlink if no overlay) ");
             foreach (Page page in OneNoteFile)
@@ -142,10 +148,21 @@ namespace OneNoteAnalyzer
 
 
                 IList<RichText> richtextlist = page.GetChildNodes<RichText>();
-                Console.WriteLine("\n             -> Page: " + page.CachedTitleString + "\n" );
+                string line1 = "\n             -> Page: " + page.CachedTitleString + "\n";
+                Console.WriteLine(line1);
+                using (StreamWriter linktext = new StreamWriter(pagepathlink,append: true))
+                {
+                    linktext.WriteLine(line1);
+                }
+
                 foreach (RichText Textval in richtextlist)
                 {
-                    Console.WriteLine("                 -> Text: " + Textval.Text);
+                    string line2 = "                 -> Text: " + Textval.Text;
+                    Console.WriteLine(line2);
+                    using (StreamWriter linktext = new StreamWriter(pagepathlink, append: true))
+                    {
+                        linktext.WriteLine(line2);
+                    }
                     foreach (TextStyle style in Textval.Styles)
                     {
                         if (style.HyperlinkAddress == null)
@@ -154,8 +171,12 @@ namespace OneNoteAnalyzer
                         }
                         else
                         {
-
-                            Console.WriteLine("\n                               [*] Contains HyperLink: " + style.HyperlinkAddress + " \n");
+                            string line3 = "\n                               [*] Contains HyperLink: " + style.HyperlinkAddress + " \n";
+                            Console.WriteLine(line3);
+                            using (StreamWriter linktext = new StreamWriter(pagepathlink, append: true))
+                            {
+                                linktext.WriteLine(line3);
+                            }
                         }
 
                     }
@@ -164,13 +185,13 @@ namespace OneNoteAnalyzer
 
 
             }
-
+            Console.WriteLine("\n      -> HyperLink Extraction Path: " + pagepathlink);
         }
 
-        public static void ConvertToImage(string onepath)
+        public static void ConvertToImage(string onepath, string exportdirectory)
         {
             Document OneNoteFile = new Document(onepath);
-            string DirectoryName = Path.GetDirectoryName(onepath);
+            string DirectoryName = exportdirectory;
             string FileNameExt = Path.GetFileNameWithoutExtension(onepath);
             string finaldirectory = DirectoryName + "\\ConvertImage_" + FileNameExt + ".png";
 
@@ -181,7 +202,7 @@ namespace OneNoteAnalyzer
 
         }
 
-        public static void CheckFileFormat(string onepath)
+        public static string CheckFileFormat(string onepath)
         {
 
             Document OneNoteFile = new Document(onepath);
@@ -190,6 +211,20 @@ namespace OneNoteAnalyzer
             {
                 Console.WriteLine("[+] OneNote File Format Not Supported");
                 System.Environment.Exit(1);
+                return null;
+
+            }
+            else
+            {
+                string filenamewoext = Path.GetFileNameWithoutExtension(onepath);
+                string ContentDirectoryName = Path.GetDirectoryName(onepath) + "\\" + filenamewoext + "_content";
+                if (!Directory.Exists(ContentDirectoryName))
+                {
+                    Console.WriteLine("[+] Export Directory Path: " + ContentDirectoryName);
+                    Directory.CreateDirectory(ContentDirectoryName);
+                    
+                }
+                return ContentDirectoryName;
             }
 
         }
@@ -227,19 +262,19 @@ ________                 _______          __            _____                .__
                     Console.WriteLine("\n[+] OneNote Document Path: " + FilePath);
                     if (File.Exists(FilePath))
                     {
-                        CheckFileFormat(FilePath);
+                        string exportdirectory = CheckFileFormat(FilePath);                       
                         Console.WriteLine("[+] Extracting Attachments from OneNote Document");
-                        ExtractAttachment(FilePath);
+                        ExtractAttachment(FilePath, exportdirectory);
                         Console.WriteLine("\n[+] Extracting Page MetaData from OneNote Document");
                         ExtractMetaData(FilePath);
                         Console.WriteLine("\n[+] Extracting Images from OneNote Document");
-                        ExtractImages(FilePath);
+                        ExtractImages(FilePath, exportdirectory);
                         Console.WriteLine("\n[+] Extracting Text from OneNote Document");
-                        ExtractText(FilePath);
+                        ExtractText(FilePath, exportdirectory);
                         Console.WriteLine("\n[+] Extracting HyperLinks from OneNote Document");
-                        ExtractHyperLink(FilePath);
+                        ExtractHyperLink(FilePath,exportdirectory);
                         Console.WriteLine("\n[+] Converting OneNote Document to Image");
-                        ConvertToImage(FilePath);
+                        ConvertToImage(FilePath,exportdirectory);
 
 
                     }

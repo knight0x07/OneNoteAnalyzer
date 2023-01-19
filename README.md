@@ -77,7 +77,7 @@ Saved Image-2:
 
 <img width="483" alt="8" src="https://user-images.githubusercontent.com/60843949/212991656-58da71e6-cfe4-4441-aaa9-6d55a97cb8fc.PNG">
 
-Once the execution is completed the extracted data is been stored in an Export Directory "<OneNoteFilename>_content" in the current working directory as seen in the screenshot below
+Once the execution is completed the extracted data is been stored in an Export Directory "OneNoteFilename_content" in the current working directory as seen in the screenshot below
 
 ![export_1](https://user-images.githubusercontent.com/60843949/213369569-57913f05-5809-440c-bd3f-9bd9ede8b9b6.PNG)
 

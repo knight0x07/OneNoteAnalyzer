@@ -87,6 +87,9 @@ Once the execution is completed the extracted data is been stored in an Export D
 - Install "Aspose.Note 18.1.0" from Nuget Packages
 - Build the project!
 
+## Updates
+- Added Export Directory (Compiled binary can be downloaded from Releases)
+
 ## References
 
 https://docs.aspose.com/note/net

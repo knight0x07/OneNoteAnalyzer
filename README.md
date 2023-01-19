@@ -89,6 +89,7 @@ Once the execution is completed the extracted data is been stored in an Export D
 
 ## Updates
 - Added Export Directory (Compiled binary can be downloaded from Releases)
+- HyperLinks extracted from OneNote document are added in the Export Directory.
 
 ## References
 

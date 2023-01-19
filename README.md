@@ -61,6 +61,10 @@ Addtionally it extracts HyperLinks from OneNote Document along with the overlay 
 
 ![1](https://user-images.githubusercontent.com/60843949/212989534-fe9a6ebe-540a-4e91-b58f-f2a5089078a3.PNG)
 
+The extracted Hyperlinks are stored in the OneNoteHyperLinks Folder - onenote_hyperlinks.txt
+
+![hyperlinks](https://user-images.githubusercontent.com/60843949/213367331-7289c92f-4198-436d-8054-a3799c0f13b5.PNG)
+
 Finally the tool converts the OneNoteDocument into an Image and saves it shown in the following manner.
 
 <img width="800" alt="7" src="https://user-images.githubusercontent.com/60843949/212990203-9c836f27-088a-4038-ae1e-e7be62b2e6bd.PNG">
@@ -73,9 +77,9 @@ Saved Image-2:
 
 <img width="483" alt="8" src="https://user-images.githubusercontent.com/60843949/212991656-58da71e6-cfe4-4441-aaa9-6d55a97cb8fc.PNG">
 
-Once the execution is completed following folders can be seen in the directory where the Malicious OneNote file resides.
+Once the execution is completed the extracted data is been stored in an Export Directory "<OneNoteFilename>_content" in the current working directory as seen in the screenshot below
 
-![9](https://user-images.githubusercontent.com/60843949/212991035-46850da1-6fa5-437a-816c-e43dbb691fd5.PNG)
+![export_1](https://user-images.githubusercontent.com/60843949/213369569-57913f05-5809-440c-bd3f-9bd9ede8b9b6.PNG)
 
 ## Setup Information
 
@@ -87,7 +91,7 @@ Once the execution is completed following folders can be seen in the directory w
 
 https://docs.aspose.com/note/net
 
-## Thankyou! :)
+Thankyou! =)
 
 
 

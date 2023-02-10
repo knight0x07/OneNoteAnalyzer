@@ -22,17 +22,19 @@ namespace OneNoteAnalyzer
             }
             Document OneNoteFile = new Document(onepath);
             IList<AttachedFile> onenotelist = OneNoteFile.GetChildNodes<AttachedFile>();
+            var counter = 1;
             foreach (AttachedFile file in onenotelist)
             {
                 using (Stream readStream = new MemoryStream(file.Bytes))
                 {
                     Console.WriteLine("             -> Extracted Actual Attachment Path: " + Path.GetDirectoryName(file.FilePath) + " | FileName: " + file.FileName + " | Size: " + file.Bytes.Length);
-                    using (Stream outStream = System.IO.File.OpenWrite(DirectoryName + "\\" + file.FileName))
+                    using (Stream outStream = System.IO.File.OpenWrite(DirectoryName + "\\" + counter + "_" + file.FileName))
                     {
-                        
+
                         readStream.CopyTo(outStream);
                     }
                 }
+                counter++;
             }
             Console.WriteLine("\n      -> OneNote Document Attachments Extraction Path: " + DirectoryName);
 
@@ -52,7 +54,7 @@ namespace OneNoteAnalyzer
                 Console.WriteLine("             -> Author: " + page.Author);
                 Console.WriteLine("             -> CreationTime: " + page.CreationTime);
                 Console.WriteLine("             -> LastModifiedTime: " + page.LastModifiedTime);
-                
+
 
 
 
@@ -73,18 +75,21 @@ namespace OneNoteAnalyzer
             }
             IList<Aspose.Note.Image> onenodes = OneNoteFile.GetChildNodes<Aspose.Note.Image>();
             Console.WriteLine("\n      -> Extracted OneNote Document Images: \n");
+            var counter = 1;
             foreach (Aspose.Note.Image image in onenodes)
             {
+                
                 if (image.FileName == null)
                 {
                 }
                 else
                 {
 
-                    Console.WriteLine("             -> Extracted Image FileName: " + image.FileName + " | HyperLinkURL: " + (image.HyperlinkUrl == null ? "Null" : image.HyperlinkUrl) + "");
+                    
+                    Console.WriteLine("             -> Extracted Image FileName: " + counter + "_" + image.FileName + " | HyperLinkURL: " + (image.HyperlinkUrl == null ? "Null" : image.HyperlinkUrl) + "");
                     using (MemoryStream stream = new MemoryStream(image.Bytes))
                     {
-                        using (var filezstream = File.Create(DirectoryName + "\\" + image.FileName))
+                        using (var filezstream = File.Create(DirectoryName + "\\" + counter + "_" + image.FileName))
                         {
                             stream.CopyTo(filezstream);
 
@@ -92,10 +97,10 @@ namespace OneNoteAnalyzer
                         }
 
                     }
-
+                    counter++;
                 }
 
-
+               
             }
             Console.WriteLine("\n      -> Image Extraction Path: " + DirectoryName);
 
@@ -111,12 +116,13 @@ namespace OneNoteAnalyzer
                 Directory.CreateDirectory(DirectoryName);
             }
             Console.WriteLine("\n      -> Extracted OneNote Document Text: \n");
+            var counter = 1;
             foreach (Page page in OneNoteFile)
             {
                 string pagename = page.CachedTitleString;
                 string parsedfilename = string.Join("_", pagename.Split(Path.GetInvalidFileNameChars()));
-                string pagepath = DirectoryName + "\\" + parsedfilename + ".txt";
-               
+                string pagepath = DirectoryName + "\\" + counter + "_" + parsedfilename + ".txt";
+
                 using (StreamWriter textwritten = new StreamWriter(pagepath))
                 {
                     string textonenote = string.Join(Environment.NewLine, page.GetChildNodes<RichText>().Select(e => e.Text)) + Environment.NewLine;
@@ -124,6 +130,8 @@ namespace OneNoteAnalyzer
                     Console.WriteLine("             -> Page: " + page.CachedTitleString + " | Extraction Path: " + pagepath);
 
                 }
+
+                counter++;
 
             }
 
@@ -150,7 +158,7 @@ namespace OneNoteAnalyzer
                 IList<RichText> richtextlist = page.GetChildNodes<RichText>();
                 string line1 = "\n             -> Page: " + page.CachedTitleString + "\n";
                 Console.WriteLine(line1);
-                using (StreamWriter linktext = new StreamWriter(pagepathlink,append: true))
+                using (StreamWriter linktext = new StreamWriter(pagepathlink, append: true))
                 {
                     linktext.WriteLine(line1);
                 }
@@ -222,7 +230,7 @@ namespace OneNoteAnalyzer
                 {
                     Console.WriteLine("[+] Export Directory Path: " + ContentDirectoryName);
                     Directory.CreateDirectory(ContentDirectoryName);
-                    
+
                 }
                 return ContentDirectoryName;
             }
@@ -262,7 +270,7 @@ ________                 _______          __            _____                .__
                     Console.WriteLine("\n[+] OneNote Document Path: " + FilePath);
                     if (File.Exists(FilePath))
                     {
-                        string exportdirectory = CheckFileFormat(FilePath);                       
+                        string exportdirectory = CheckFileFormat(FilePath);
                         Console.WriteLine("[+] Extracting Attachments from OneNote Document");
                         ExtractAttachment(FilePath, exportdirectory);
                         Console.WriteLine("\n[+] Extracting Page MetaData from OneNote Document");
@@ -272,9 +280,9 @@ ________                 _______          __            _____                .__
                         Console.WriteLine("\n[+] Extracting Text from OneNote Document");
                         ExtractText(FilePath, exportdirectory);
                         Console.WriteLine("\n[+] Extracting HyperLinks from OneNote Document");
-                        ExtractHyperLink(FilePath,exportdirectory);
+                        ExtractHyperLink(FilePath, exportdirectory);
                         Console.WriteLine("\n[+] Converting OneNote Document to Image");
-                        ConvertToImage(FilePath,exportdirectory);
+                        ConvertToImage(FilePath, exportdirectory);
 
 
                     }

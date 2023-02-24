@@ -212,27 +212,37 @@ namespace OneNoteAnalyzer
 
         public static string CheckFileFormat(string onepath)
         {
-
-            Document OneNoteFile = new Document(onepath);
-            Console.WriteLine("[+] OneNote Document File Format: " + OneNoteFile.FileFormat);
-            if (OneNoteFile.FileFormat == FileFormat.Unknown)
+            try
             {
-                Console.WriteLine("[+] OneNote File Format Not Supported");
+                Document OneNoteFile = new Document(onepath);
+                Console.WriteLine("[+] OneNote Document File Format: " + OneNoteFile.FileFormat);
+                if (OneNoteFile.FileFormat == FileFormat.Unknown)
+                {
+                    Console.WriteLine("[-] OneNote File Format Not Supported");
+                    System.Environment.Exit(1);
+                    return null;
+
+                }
+                else
+                {
+                    string filenamewoext = Path.GetFileNameWithoutExtension(onepath);
+                    string ContentDirectoryName = Path.GetDirectoryName(onepath) + "\\" + filenamewoext + "_content";
+                    if (!Directory.Exists(ContentDirectoryName))
+                    {
+                        Console.WriteLine("[+] Export Directory Path: " + ContentDirectoryName);
+                        Directory.CreateDirectory(ContentDirectoryName);
+
+                    }
+                    return ContentDirectoryName;
+                }
+            }
+            catch (FileCorruptedException ex)
+            {
+                Console.WriteLine("\n[-] Corrupted OneNote Document!");
+                Console.WriteLine("[-] Export/SaveAs the OneNote Document from OneNote 2016 - This will solve this issue!");
                 System.Environment.Exit(1);
                 return null;
 
-            }
-            else
-            {
-                string filenamewoext = Path.GetFileNameWithoutExtension(onepath);
-                string ContentDirectoryName = Path.GetDirectoryName(onepath) + "\\" + filenamewoext + "_content";
-                if (!Directory.Exists(ContentDirectoryName))
-                {
-                    Console.WriteLine("[+] Export Directory Path: " + ContentDirectoryName);
-                    Directory.CreateDirectory(ContentDirectoryName);
-
-                }
-                return ContentDirectoryName;
             }
 
         }

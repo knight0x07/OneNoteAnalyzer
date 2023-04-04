@@ -13,7 +13,8 @@ After providing the file path of the Malicious OneNote document. The OneNoteAnal
 - Images from OneNote Document along with the HyperLink URLs if any
 - Pagewise Text from OneNote Document
 - HyperLinks from OneNote Document along with the overlay text
-- and Converts OneNote Document to Image
+- Converts OneNote Document to Image
+- Parses Password Protected OneNote Documents `NEW`
 
 ## Usage
 

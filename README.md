@@ -91,6 +91,8 @@ Once the execution is completed the extracted data is been stored in an Export D
 - Added Export Directory where all the extracted data from the OneNote Document is been dumped (Compiled binary can be downloaded from Releases)
 - Fixed extraction issues with Multiple Attachments & Images with identical filename
 - FileCorruptedException Handling
+- Supports Password Protected OneNote Documents - Modified by [0xToxin](https://twitter.com/0xToxin)
+    - Repo directory: OneNoteAnalyzer-withPass
 
 ## References
 

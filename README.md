@@ -92,7 +92,7 @@ Once the execution is completed the extracted data is been stored in an Export D
 - Fixed extraction issues with Multiple Attachments & Images with identical filename
 - FileCorruptedException Handling
 - Supports Password Protected OneNote Documents - Modified by [0xToxin](https://twitter.com/0xToxin)
-    - Repo directory: OneNoteAnalyzer-withPass
+    - For more info & code -> Repo directory: OneNoteAnalyzer-withPass
     - Compiled Binary in Releases
 
 ## References

@@ -93,6 +93,7 @@ Once the execution is completed the extracted data is been stored in an Export D
 - FileCorruptedException Handling
 - Supports Password Protected OneNote Documents - Modified by [0xToxin](https://twitter.com/0xToxin)
     - Repo directory: OneNoteAnalyzer-withPass
+    - Compiled Binary in Releases
 
 ## References
 
